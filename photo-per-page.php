@@ -6,12 +6,16 @@ Version: 0.1
 Author: Mikael Gramont
 License: GPL2
 */
+$photo_per_page_plugin_domain = 'photoperpage';
+
+load_plugin_textdomain($photo_per_page_plugin_domain, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 
 add_action( 'add_meta_boxes', 'photo_per_page_add_custom_box' );
 function photo_per_page_add_custom_box() {
+	global $photo_per_page_plugin_domain;
     add_meta_box(
         'photo-per-page-meta',
-        __( 'Header photo', 'photo_per_page' ), 
+        __( 'Header photo', $photo_per_page_plugin_domain), 
         'photo_per_page_meta_boxes',
         'page'
     );
@@ -19,7 +23,8 @@ function photo_per_page_add_custom_box() {
 
 add_action( 'save_post', 'photo_per_page_save_postdata' );
 function photo_per_page_meta_boxes( $post ) {
-
+	global $photo_per_page_plugin_domain;
+	
   // Use nonce for verification
   wp_nonce_field( plugin_basename( __FILE__ ), 'photo_per_page_noncename' );
   
@@ -31,12 +36,12 @@ function photo_per_page_meta_boxes( $post ) {
   }
   // The actual fields for data entry
   echo '<p><label for="photo_per_page_header_photo_url">';
-       _e("Adress of the photo", 'photo_per_page' );
+       _e("Adress of the photo", $photo_per_page_plugin_domain);
   echo '</label> ';
   echo '<input type="text" id="photo_per_page_url" name="photo_per_page_url" value="'.$header_photo_url.'" size="50" /></p>';
 
   echo '<p><label for="photo_per_page_header_photo_title">';
-       _e("Title of the photo (optional)", 'photo_per_page' );
+       _e("Title of the photo (optional)", $photo_per_page_plugin_domain);
   echo '</label> ';
   echo '<input type="text" id="photo_per_page_title" name="photo_per_page_title" value="'.$header_photo_title.'" size="50" /></p>';
   
